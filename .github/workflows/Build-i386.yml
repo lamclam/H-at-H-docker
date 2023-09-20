@@ -1,4 +1,4 @@
-name: Publish Docker image
+name: Publish Docker image(i386)
 on:
   release:
     types: [published]
@@ -31,11 +31,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push for i386
         uses: docker/build-push-action@v3
         with:
-          platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/ppc64le
+          platforms: linux/i386
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE }}:latest
-          cache-from: type=gha,scope=${{ github.workflow }}
-          cache-to: type=gha,mode=max,scope=${{ github.workflow }}
+          file: Dockerfile_i386
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE }}:i386
+          cache-from: type=gha,scope=i386
+          cache-to: type=gha,mode=max,scope=i386
